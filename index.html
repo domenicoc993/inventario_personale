@@ -59,7 +59,7 @@
                 </div>
                 <div id="sidebar-controls" style="padding-top: 20px">
                     <!-- Buttons are already defined in HTML and moved here by JS, this div is just a container -->
-                    <button id="expand-all-btn" title="Espandi tutto"></button>
+                    <button id="filter-btn" title="Filtro"></button>
                     <button
                         id="collapse-all-btn"
                         title="Comprimi tutto"
@@ -196,7 +196,24 @@
             </div>
         </div>
 
-        <script src="script.js"></script>
+        <div id="filter-modal-overlay" class="hidden">
+            <div id="filter-modal">
+                <div class="modal-header">
+                    <h2>Filtra per Utilizzo</h2>
+                    <button id="close-filter-modal-btn">Chiudi</button>
+                </div>
+                <div id="filter-modal-content">
+                    <label><input type="checkbox" name="modal-utilizzo-filter" value="Attivo" /> Attivo</label>
+                    <label><input type="checkbox" name="modal-utilizzo-filter" value="In uso" /> In uso</label>
+                    <label><input type="checkbox" name="modal-utilizzo-filter" value="Archiviato" /> Archiviato</label>
+                </div>
+                <div class="modal-footer">
+                    <button id="apply-filters-btn">Applica</button>
+                </div>
+            </div>
+        </div>
+
+        <script type="module" src="main.js"></script>
         <script>
             const fillColor = "#ffffff"; // Cambia qui il colore come preferisci
 
