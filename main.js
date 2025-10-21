@@ -13,7 +13,7 @@ import { processCsvText } from "./fileHandler.js";
 
 async function loadInitialInventory() {
   try {
-    const response = await fetch("Inventario.csv");
+    const response = await fetch("inventario.csv");
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
