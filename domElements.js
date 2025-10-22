@@ -1,6 +1,7 @@
 export const fileInput = document.getElementById("json-file-input");
 export const loadFileBtn = document.getElementById("load-file-btn");
 export const loadStatus = document.getElementById("load-status");
+export const cancelChangeFileBtn = document.getElementById("cancel-change-file-btn");
 
 export const initialSectionsWrapper = document.getElementById(
     "initial-sections-wrapper",
@@ -13,8 +14,6 @@ export const confirmNewInventorySection = document.getElementById(
 export const confirmSavedChecklistSection = document.getElementById(
     "confirm-saved-checklist-section",
   );
-export const utilizzoFilters = document.getElementById("utilizzo-filters");
-export const confirmLoadNewBtn = document.getElementById("confirm-load-new-btn");
 export const confirmLoadSavedBtn = document.getElementById("confirm-load-saved-btn");
 
 export const savedOriginalFiltersSpan = document.getElementById(
@@ -59,6 +58,8 @@ export const filterBtn = document.getElementById("filter-btn");
 export const collapseAllBtn = document.getElementById("collapse-all-btn");
 export const showCheckedBtn = document.getElementById("show-checked-btn");
 export const exportChecklistBtn = document.getElementById("export-checklist-btn");
+export const changeFileBtn = document.createElement("button");
+changeFileBtn.id = "change-file-btn";
 export const checkedItemsOverlay = document.getElementById("checked-items-overlay");
 export const checkedItemsList = document.getElementById("checked-items-list");
 export const clearAllCheckedBtn = document.getElementById("clear-all-checked-btn");
