@@ -17,14 +17,14 @@
         />
     </head>
     <body>
-        <button id="hamburger-btn" title="Menu" style="background-color: rgb(87, 87, 87);">
-            <svg height="20px" weight="20px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" data-darkreader-inline-fill="" style="--darkreader-inline-fill: var(--darkreader-background-000000, #ffffff);"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>category-solid</title> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="icons_Q2" data-name="icons Q2"> <path d="M24,2a2.1,2.1,0,0,0-1.7,1L13.2,17a2.3,2.3,0,0,0,0,2,1.9,1.9,0,0,0,1.7,1H33a2.1,2.1,0,0,0,1.7-1,1.8,1.8,0,0,0,0-2l-9-14A1.9,1.9,0,0,0,24,2Z"></path> <path d="M43,43H29a2,2,0,0,1-2-2V27a2,2,0,0,1,2-2H43a2,2,0,0,1,2,2V41A2,2,0,0,1,43,43Z"></path> <path d="M13,24A10,10,0,1,0,23,34,10,10,0,0,0,13,24Z"></path> </g> </g> </g></svg>
+        <button id="hamburger-btn" title="Menu" style="background-color: rgb(226, 226, 226);">
+            <svg height="20px" weight="20px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" fill="#202020" data-darkreader-inline-fill=""><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>category-solid</title> <g id="Layer_2" data-name="Layer 2"> <g id="invisible_box" data-name="invisible box"> <rect width="48" height="48" fill="none"></rect> </g> <g id="icons_Q2" data-name="icons Q2"> <path d="M24,2a2.1,2.1,0,0,0-1.7,1L13.2,17a2.3,2.3,0,0,0,0,2,1.9,1.9,0,0,0,1.7,1H33a2.1,2.1,0,0,0,1.7-1,1.8,1.8,0,0,0,0-2l-9-14A1.9,1.9,0,0,0,24,2Z"></path> <path d="M43,43H29a2,2,0,0,1-2-2V27a2,2,0,0,1,2-2H43a2,2,0,0,1,2,2V41A2,2,0,0,1,43,43Z"></path> <path d="M13,24A10,10,0,1,0,23,34,10,10,0,0,0,13,24Z"></path> </g> </g> </g></svg>
         </button>
         <div id="sidebar-menu">
             <div class="sidebar-header">
                 <h1
                     id="sidebar-title"
-                    style="margin-top: 0px; margin-left: 45px"
+                    style="margin-top: 0px; margin-left: 50px"
                 >
                     INVENTARIO
                 </h1>
@@ -54,7 +54,7 @@
                         <!-- Contatori utilizzo verranno inseriti qui da JS -->
                     </div>
                 </div>
-                <div id="sidebar-category-filters">
+                <div id="sidebar-category-filters" style="padding-top: 20px; padding-left: 5px">
                     <!-- Category filters will be populated by JS -->
                 </div>
                 <div id="sidebar-controls" style="padding-top: 20px">
@@ -76,58 +76,17 @@
         <div id="initial-sections-wrapper">
             <!-- Wrapper for initial screens -->
             <div id="file-input-section">
-                <h1 style="margin-top: 0px; margin-bottom: 0">Carica file</h1>
-                <input type="file" id="json-file-input" accept=".json,.csv" />
-                <button id="load-file-btn">Apri file</button>
-                <p
-                    id="load-status"
-                    class="status"
-                    style="margin-left: 10px; margin-top: 0"
-                ></p>
+                <button id="cancel-change-file-btn" class="hidden" title="Annulla modifica file">×</button>
+                <h1>Carica file</h1>
+                <div class="file-input-row">
+                    <input type="file" id="json-file-input" accept=".json,.csv" />
+                    <button id="load-file-btn">Apri</button>
+                </div>
+                <p id="load-status" class="status"></p>
             </div>
 
             <div id="confirm-load-section" class="hidden">
-                <div id="confirm-new-inventory-section" class="hidden">
-                    <h2>Inventario rilevato</h2>
-                    <p style="margin-bottom: 20px">
-                        Seleziona i filtri di utilizzo desiderati:
-                    </p>
-                    <div id="utilizzo-filters">
-                        <label
-                            ><input
-                                type="checkbox"
-                                name="utilizzo-filter"
-                                value="Attivo"
-                                checked
-                            />
-                            Attivo</label
-                        >
-                        <label
-                            ><input
-                                type="checkbox"
-                                name="utilizzo-filter"
-                                value="In uso"
-                            />
-                            In uso</label
-                        >
-                        <label
-                            ><input
-                                type="checkbox"
-                                name="utilizzo-filter"
-                                value="Archiviato"
-                            />
-                            Archiviato</label
-                        >
-                    </div>
-                    <button
-                        id="confirm-load-new-btn"
-                        style="margin-bottom: 10px; margin-top: 10px"
-                    >
-                        Carica lista
-                    </button>
-                </div>
-
-                <div id="confirm-saved-checklist-section" class="hidden">
+<div id="confirm-saved-checklist-section" class="hidden">
                     <h2 style="margin-bottom: 30px">Checklist rilevata</h2>
                     <p style="margin-left: 2px">
                         <strong>Filtro originale applicato:</strong>
@@ -199,17 +158,14 @@
         <div id="filter-modal-overlay" class="hidden">
             <div id="filter-modal">
                 <div class="modal-header">
-                    <h2>Filtra per Utilizzo</h2>
-                    <button id="close-filter-modal-btn">Chiudi</button>
+                    <h2>FILTRO</h2>
                 </div>
                 <div id="filter-modal-content">
                     <label><input type="checkbox" name="modal-utilizzo-filter" value="Attivo" /> Attivo</label>
                     <label><input type="checkbox" name="modal-utilizzo-filter" value="In uso" /> In uso</label>
                     <label><input type="checkbox" name="modal-utilizzo-filter" value="Archiviato" /> Archiviato</label>
                 </div>
-                <div class="modal-footer">
-                    <button id="apply-filters-btn">Applica</button>
-                </div>
+
             </div>
         </div>
 
