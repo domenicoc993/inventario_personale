@@ -5,6 +5,7 @@ import {
   svgIconCollapse,
   svgIconHistory,
   svgIconExport,
+  svgIconChangeFile,
 } from "./constants.js";
 import { initEventHandlers } from "./eventHandlers.js";
 import { adjustMainContentMargin, renderChecklist, updateCheckedItemsOverlay } from "./ui.js";
@@ -45,7 +46,6 @@ async function loadInitialInventory() {
     }
   } catch (error) {
     console.error("Failed to load initial inventory:", error);
-    dom.loadStatus.textContent = "Impossibile caricare inventario.csv. Carica un file manualmente.";
     // Show the manual file input section if auto-load fails
     if (dom.initialSectionsWrapper) dom.initialSectionsWrapper.classList.remove("hidden");
     dom.fileInputSection.classList.remove("hidden");
@@ -58,12 +58,14 @@ document.addEventListener("DOMContentLoaded", () => {
   dom.collapseAllBtn.innerHTML = svgIconCollapse;
   dom.showCheckedBtn.innerHTML = svgIconHistory;
   dom.exportChecklistBtn.innerHTML = svgIconExport;
+  dom.changeFileBtn.innerHTML = svgIconChangeFile;
 
   // Aggiungi i pulsanti alla sidebar
+  dom.sidebarControlsContainer.appendChild(dom.changeFileBtn);
+  dom.sidebarControlsContainer.appendChild(dom.exportChecklistBtn);
   dom.sidebarControlsContainer.appendChild(dom.filterBtn);
   dom.sidebarControlsContainer.appendChild(dom.collapseAllBtn);
   dom.sidebarControlsContainer.appendChild(dom.showCheckedBtn);
-  dom.sidebarControlsContainer.appendChild(dom.exportChecklistBtn);
 
   // Imposta il margine iniziale
   adjustMainContentMargin();
