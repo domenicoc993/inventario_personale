@@ -5,13 +5,12 @@ body {
     font-weight: 100;
     font-style: normal;
     margin: 0;
-    background-color: #121212;
+    background-color: #0e0e0e;
     color: #e0e0e0;
     overflow-x: hidden;
     transition: filter 0.3s ease-out;
 }
-body.body-blur
-    > *:not(#checked-items-overlay):not(#sidebar-menu):not(#hamburger-btn) {
+body.body-blur > *:not(#checked-items-overlay):not(#filter-modal-overlay) {
     filter: blur(5px);
     pointer-events: none;
 }
@@ -63,8 +62,8 @@ h2 {
 #sidebar-menu {
     position: fixed;
     top: 0;
-    left: -280px;
-    width: 280px;
+    left: -300px;
+    width: 300px;
     height: 100dvh;
     background-color: #202020;
     color: #e0e0e0;
@@ -90,7 +89,8 @@ h2 {
 }
 
 #sidebar-menu h1#sidebar-title {
-    font-size: 1.6em;
+    font-family: "Noto Sans", sans-serif;
+    font-size: 2em;
     margin-bottom: 0;
     margin-left: 0px;
     color: #e2e2e2;
@@ -109,6 +109,7 @@ h2 {
 #sidebar-counters {
     flex-shrink: 0;
     margin-bottom: 10px;
+    padding-left: 5px;
 }
 #sidebar-counters p {
     font-size: 0.9em;
@@ -143,11 +144,32 @@ h2 {
 
 /* Sidebar Category Filters */
 #sidebar-category-filters {
-    margin-bottom: 15px;
     flex-grow: 1;
     overflow-y: auto;
     min-height: 50px;
+    padding-right: 5px; /* Spazio per la scrollbar */
 }
+
+/* Stile per la scrollbar (per browser Webkit) */
+#sidebar-category-filters::-webkit-scrollbar {
+    width: 8px;
+}
+
+#sidebar-category-filters::-webkit-scrollbar-track {
+    background: #202020; /* Sfondo della traccia */
+    border-radius: 4px;
+}
+
+#sidebar-category-filters::-webkit-scrollbar-thumb {
+    background-color: #555; /* Colore della scrollbar */
+    border-radius: 4px;
+    border: 2px solid #202020; /* Crea un effetto padding */
+}
+
+#sidebar-category-filters::-webkit-scrollbar-thumb:hover {
+    background-color: #777; /* Colore al passaggio del mouse */
+}
+
 #sidebar-category-filters .category-filter-item {
     display: flex;
     justify-content: space-between;
@@ -234,7 +256,10 @@ h2 {
     transition: margin-left 0.3s ease-in-out;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: center; /* Center horizontally */
+    justify-content: center; /* Center vertically */
+    text-align: center; /* Center text content */
+    min-height: calc(100vh - 40px); /* Take full viewport height minus margins */
 }
 #initial-sections-wrapper.hidden {
     display: none !important;
@@ -253,9 +278,11 @@ h2 {
 }
 #file-input-section {
     display: flex;
+    flex-direction: column; /* Stack elements vertically */
     align-items: center;
-    gap: 10px;
+    gap: 15px; /* Space out the elements */
     background-color: #252525;
+    position: relative; /* For positioning the cancel button */
 }
 #confirm-load-section {
     background-color: #252525;
@@ -307,7 +334,7 @@ h2 {
 #checklist-container-wrapper {
     width: 100%;
     max-width: 1200px;
-    /* background-color: #252525; */
+    /* background-color: #0e0e0e; */
     padding: 20px;
     border-radius: 8px;
     box-shadow: none; /* Shadow removed */
@@ -577,8 +604,8 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
-    left: 5px;
-    top: 1px;
+    left: 7px;
+    top: 3.5px;
     width: 4px;
     height: 8px;
     border: solid white;
@@ -763,11 +790,18 @@ input[type="checkbox"]:checked::after {
     width: 24px;
     height: 24px;
     color: #c0392b;
-    font-size: 0.9em; /* Make 'X' a bit larger */
+    font-size: 1em; /* Make 'X' a bit larger */
     line-height: 1;
 }
 #checked-items-list li .restore-btn:hover {
     color: #ddd; /* Lighter color on hover */
+}
+
+/* Stili per la cronologia */
+.history-count,
+.history-parent {
+    font-weight: 700; /* Grassetto */
+    color: #b0b0b0; /* Colore più chiaro/meno prominente */
 }
 
 /* Filter Modal Styles */
@@ -856,8 +890,10 @@ input[type="checkbox"]:checked::after {
 
 /* Modifiche per i contatori */
 .item-tag.count-highlight-tag {
-    background-color: #ffffff !important;
-    color: #000000 !important;
+    background-color: #1e1e1e !important;
+    color: #ffffff !important;
+    padding: 2px 7px;
+    font-size: 1em;
 }
 
 /* Modifiche per la sidebar */
@@ -915,4 +951,44 @@ input[type="checkbox"]:checked::after {
 #sidebar-total-elements {
     /* This specific rule is no longer needed but is harmless */
     font-weight: bold;
+}
+
+/* New styles for file input section */
+#file-input-section h1 {
+    font-size: 1.2em;
+    margin: 0;
+    padding: 0;
+}
+
+.file-input-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+#load-status {
+    min-height: 1.2em; /* Prevent layout shift */
+    margin: 0;
+}
+
+#cancel-change-file-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: #aaa;
+    font-size: 1.5em;
+    line-height: 1;
+    padding: 5px;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+#cancel-change-file-btn:hover {
+    color: white;
+    background-color: #555;
 }
