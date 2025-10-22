@@ -128,10 +128,40 @@ export function toggleChildren(uniqueId) {
     toggleBtn.classList.toggle("collapsed");
   }
 }
+function handleChangeFile() {
+  if (
+    state.hasUnsavedChanges &&
+    !confirm(
+      "Hai delle modifiche non salvate che andranno perse. Vuoi caricare un nuovo file?",
+    )
+  ) {
+    return;
+  }
+
+  dom.mainContent.classList.add("hidden");
+  if (dom.initialSectionsWrapper) {
+    dom.initialSectionsWrapper.classList.remove("hidden");
+  }
+  dom.fileInputSection.classList.remove("hidden");
+  dom.cancelChangeFileBtn.classList.remove("hidden");
+  dom.confirmLoadSection.classList.add("hidden");
+  dom.fileInput.value = ""; // Resetta l'input file
+  state.setHasUnsavedChanges(false); // Resetta lo stato delle modifiche
+}
+
 export function initEventHandlers() {
   dom.hamburgerBtn.addEventListener("click", () => {
     dom.sidebarMenu.classList.toggle("open");
     adjustMainContentMargin();
+  });
+
+  dom.changeFileBtn.addEventListener("click", handleChangeFile);
+
+  dom.cancelChangeFileBtn.addEventListener("click", () => {
+    if (dom.initialSectionsWrapper)
+      dom.initialSectionsWrapper.classList.add("hidden");
+    dom.mainContent.classList.remove("hidden");
+    dom.cancelChangeFileBtn.classList.add("hidden");
   });
 
   dom.collapseAllBtn.addEventListener("click", () => toggleAll(false));
@@ -161,37 +191,6 @@ dom.loadFileBtn.addEventListener("click", () => {
   }
 });
 
-dom.confirmLoadNewBtn.addEventListener("click", () => {
-  const selectedUtilizzi = Array.from(dom.filterCheckboxes)
-    .filter((cb) => cb.checked)
-    .map((cb) => cb.value);
-  if (selectedUtilizzi.length === 0) {
-    alert("Seleziona almeno un filtro di utilizzo.");
-    return;
-  }
-  if (!state.tempLoadedData) {
-    dom.loadStatus.textContent = "Dati non pronti.";
-    return;
-  }
-  state.setFullInventoryData(state.tempLoadedData);
-  state.setCurrentChecklistState({
-    checklist_timestamp: getFormattedTimestamp(),
-    original_filters: selectedUtilizzi,
-  });
-  state.setCurrentActiveCategoryFilter(null);
-
-  if (dom.initialSectionsWrapper)
-    dom.initialSectionsWrapper.classList.add("hidden");
-  dom.mainContent.classList.remove("hidden");
-  dom.sidebarMenu.classList.add("open");
-  adjustMainContentMargin();
-  renderChecklist();
-  updateCheckedItemsOverlay();
-  dom.loadStatus.textContent = `Inventario caricato.`;
-  state.setTempLoadedData(null);
-  state.setHasUnsavedChanges(false);
-});
-
 dom.filterBtn.addEventListener("click", () => {
   // Populate checkboxes based on current state
   const currentFilters = state.currentChecklistState.original_filters || [];
@@ -200,22 +199,30 @@ dom.filterBtn.addEventListener("click", () => {
     cb.checked = currentFilters.includes(cb.value);
   });
   dom.filterModalOverlay.classList.remove("hidden");
+  document.body.classList.add("body-blur");
 });
 
-dom.closeFilterModalBtn.addEventListener("click", () => {
-  dom.filterModalOverlay.classList.add("hidden");
+dom.filterModalOverlay.addEventListener("click", (event) => {
+  if (event.target === dom.filterModalOverlay) {
+    dom.filterModalOverlay.classList.add("hidden");
+    document.body.classList.remove("body-blur");
+  }
 });
 
-dom.applyFiltersBtn.addEventListener("click", () => {
   const modalCheckboxes = document.querySelectorAll('input[name="modal-utilizzo-filter"]');
-  const selectedUtilizzi = Array.from(modalCheckboxes)
-    .filter(cb => cb.checked)
-    .map(cb => cb.value);
+  modalCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', () => {
+      const selectedUtilizzi = Array.from(modalCheckboxes)
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+      
+      state.currentChecklistState.original_filters = selectedUtilizzi;
+      state.setHasUnsavedChanges(true); // Filters changing is an unsaved change
+      renderChecklist();
+    });
+  });
 
-  state.currentChecklistState.original_filters = selectedUtilizzi;
-  renderChecklist();
-  dom.filterModalOverlay.classList.add("hidden");
-});
+
 
 dom.confirmLoadSavedBtn.addEventListener("click", () => {
   if (!state.tempLoadedData) {
@@ -264,12 +271,6 @@ dom.exportChecklistBtn.addEventListener("click", () => {
   }
   const stateToExport = JSON.parse(JSON.stringify(state.currentChecklistState));
   stateToExport.checklist_timestamp = getFormattedTimestamp();
-
-  if (!stateToExport.original_filters) {
-    stateToExport.original_filters = Array.from(dom.filterCheckboxes)
-      .filter((cb) => cb.checked)
-      .map((cb) => cb.value);
-  }
 
   for (const key in stateToExport) {
     if (stateToExport[key] && typeof stateToExport[key] === "object") {
