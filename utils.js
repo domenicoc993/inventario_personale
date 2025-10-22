@@ -36,7 +36,7 @@ export function formatItemText(item) {
     if (item.totali === item.in_uso) {
       countText = `${item.totali}`;
     } else {
-      countText = `${item.in_uso}/${item.totali}`;
+      countText = `${item.in_uso} / ${item.totali}`;
     }
   }
 
