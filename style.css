@@ -1,4 +1,16 @@
 /* Font Imports gestite in HTML */
+
+/* ─── Touch optimizations globali ──────────────────────────────────────────
+   Rimuove il flash di highlight blu/grigio su tap in iOS/Android.
+   touch-action: manipulation elimina il doppio-tap-to-zoom, riducendo il
+   ritardo di 300ms sui click senza disabilitare lo scroll. */
+* {
+    -webkit-tap-highlight-color: transparent;
+}
+button, label, .category-filter-item {
+    touch-action: manipulation;
+}
+
 body {
     font-family: "Noto Sans", sans-serif;
     font-optical-sizing: auto;
@@ -110,7 +122,7 @@ h2 {
     flex-shrink: 0;
     margin-bottom: 10px;
     margin-top: 8px;
-    padding-left: 5px;
+    padding-left: 15px;
 }
 #sidebar-counters p {
     font-size: 0.9em;
@@ -430,7 +442,7 @@ button:disabled {
 .checklist .item {
     background-color: #202020;
     border: 0px solid #444;
-    border-radius: 5px;
+    border-radius: 15px;
     margin-bottom: 10px;
     padding: 15px 20px 15px 15px;
     position: relative;
@@ -444,6 +456,11 @@ button:disabled {
     display: flex;
     align-items: center;
     width: 100%;
+    box-sizing: border-box; /* ← questo è il fix */
+}
+
+.item-row--parent-with-children {
+    padding-right: 20px;
 }
 
 .checklist
@@ -566,6 +583,7 @@ button:disabled {
     color: #656565;
     font-size: 1.5em;
     line-height: 1;
+    touch-action: manipulation;
 }
 .item-controls .toggle-btn.collapsed {
     transform: rotate(-90deg);
@@ -576,11 +594,18 @@ button:disabled {
 
 .item-controls .toggle-spacer {
     display: inline-block;
-    width: 28px;
+    width: 8px;
     height: 28px;
     margin-right: 8px;
 }
 
+.item-controls .toggle-spacer--parent-with-children {
+    width: 28px;
+}
+
+.item-controls .toggle-spacer--root-leaf {
+    width: 28px;
+}
 
 /* ADDED: Custom checkbox styling for dark theme */
 input[type="checkbox"] {
@@ -605,19 +630,34 @@ input[type="checkbox"]:checked {
 input[type="checkbox"]:checked::after {
     content: '';
     position: absolute;
-    left: 7px;
-    top: 3.5px;
+    left: 50%;
+    top: 50%;
     width: 4px;
     height: 8px;
     border: solid white;
     border-width: 0 2px 2px 0;
-    transform: rotate(45deg);
+    transform: translate(-50%, -60%) rotate(45deg);
 }
 
 .item-controls input[type="checkbox"] {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     accent-color: #387631;
+    /* Touch target minimo raccomandato da Apple HIG: 44x44pt.
+       Usiamo un pseudo-elemento per espandere l'area cliccabile senza
+       alterare il layout visivo. */
+    position: relative;
+    touch-action: manipulation;
+}
+/* Espande l'area di tap invisibile intorno alla checkbox su touch screen */
+.item-controls input[type="checkbox"]::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 44px;
+    min-height: 44px;
 }
 .item-controls input[type="checkbox"]:not(:disabled) {
     cursor: pointer;
@@ -905,7 +945,7 @@ input[type="checkbox"]:checked::after {
     align-items: center;
     padding: 8px 12px; /* Aggiustato padding */
     margin-bottom: 3px;
-    border-radius: 4px;
+    border-radius: 999px;
     cursor: pointer;
     transition: background-color 0.2s ease, opacity 0.2s ease;
     font-size: 0.9em;
